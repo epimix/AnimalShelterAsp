@@ -1,0 +1,116 @@
+﻿@model List<Animal>
+
+<h1>Список тварин у притулку</h1>
+
+<a asp-action="Create" class="btn btn-primary my-1">Додати нову тварину</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Фото</th>
+            <th scope="col">Ім'я</th>
+            <th scope="col">Вік</th>
+            <th scope="col">Стать</th>
+            <th scope="col">Категорія</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr class="align-middle">
+                <th scope="row">@i.Id</th>
+                <td class="grid-item-main-image">
+                    <img src="@(i.ImageUrl ?? "https://thumbs.dreamstime.com/b/no-image-icon-vector-available-picture-symbol-isolated-white-background-suitable-user-interface-element-205805243.jpg")" alt="@i.Name" height="50" />
+                </td>
+                <td>
+                    <a href="#">@i.Name</a>
+                </td>
+                <td>
+                    @if (i.Age == 0)
+                    {
+                        <span>Менше року</span>
+                    }
+                    else
+                    {
+                        <span>@i.Age років</span>
+                    }
+                </td>
+                <td>@i.Gender</td>
+                <td>@i.Category?.Name</td>
+                <td>
+                    @if (i.Status == "Доступний")
+                    {
+                        <span class="badge bg-success">@i.Status</span>
+                    }
+                    else if (i.Status == "Зарезервований")
+                    {
+                        <span class="badge bg-warning">@i.Status</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">@i.Status</span>
+                    }
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a asp-action="Edit" asp-route-id="@i.Id" class="btn btn-outline-warning">Редагувати</a>
+                        <a data-bs-id="@i.Id" data-bs-title="@i.Name" data-bs-toggle="modal" data-bs-target="#deleteConfirmDialog" class="btn btn-outline-danger">Видалити</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Count == 0)
+{
+    <div class="text-center">
+        <img width="500" src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-concept-illustration-svg-png-download-2902554.png" alt="Empty" />
+    </div>
+}
+
+<div class="modal fade" id="deleteConfirmDialog" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Ви впевнені, що хочете видалити тварину <b class="title"></b>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ні</button>
+                <a id="deleteBtn" class="btn btn-danger">Так</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var modal = document.getElementById('deleteConfirmDialog')
+        var deleteBtn = document.getElementById('deleteBtn')
+
+        modal.addEventListener('show.bs.modal', function (event) {
+            // Button that triggered the modal
+            var button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            var title = button.getAttribute('data-bs-title')
+
+            // Update the modal's content.
+            var titleSpan = modal.querySelector('.modal-body .title')
+            titleSpan.textContent = title
+
+            // --- id
+            var id = button.getAttribute('data-bs-id')
+            var deleteBtn = modal.querySelector('.modal #deleteBtn')
+            deleteBtn.setAttribute('href', "/animals/delete/" + id)
+        })
+
+    </script>
+}
