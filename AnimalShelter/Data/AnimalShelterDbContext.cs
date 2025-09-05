@@ -12,7 +12,7 @@ namespace AnimalShelter.Data
 
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Category> Categories { get; set; }
-        
+
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

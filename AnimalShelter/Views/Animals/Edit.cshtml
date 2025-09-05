@@ -25,14 +25,10 @@
         </select>
         <span asp-validation-for="Gender" class="small text-danger"></span>
     </div>
-    <div class="col-md-6">
-        <label asp-for="CategoryId" class="form-label">Категорія</label>
-        <select asp-for="CategoryId" class="form-select">
-            <option value="">Оберіть категорію</option>
-            @foreach (var category in ViewBag.Categories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
+    <div class="col-md-8">
+        <label asp-for="CategoryId" class="form-label">Category Id</label>
+        <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-select">
+            <option disabled selected>Choose category...</option>
         </select>
         <span asp-validation-for="CategoryId" class="small text-danger"></span>
     </div>

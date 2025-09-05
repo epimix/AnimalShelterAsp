@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using AnimalShelter.Data;
 using AnimalShelter.Data.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using AnimalShelter.Extensions;
+using AnimalShelter.Models;
 
 namespace AnimalShelter.Controllers
 {
@@ -24,7 +27,7 @@ namespace AnimalShelter.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Categories = ctx.Categories.ToList();
+            SetCategoriesToViewBag();
             return View();
         }
         
@@ -33,13 +36,15 @@ namespace AnimalShelter.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Categories = ctx.Categories.ToList();
+                SetCategoriesToViewBag();
                 return View();
             }
 
             ctx.Animals.Add(animal);
             ctx.SaveChanges();
-            
+
+            TempData.Set(WebConstants.ToastMessage, new ToastModel("Product created successfully!"));
+
             return RedirectToAction("Index");
         }
 
@@ -49,7 +54,7 @@ namespace AnimalShelter.Controllers
             var animal = ctx.Animals.Find(id);
             if (animal == null) return NotFound();
 
-            ViewBag.Categories = ctx.Categories.ToList();
+            SetCategoriesToViewBag();
             return View(animal);
         }
 
@@ -58,12 +63,15 @@ namespace AnimalShelter.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Categories = ctx.Categories.ToList();
+                SetCategoriesToViewBag();
                 return View();
             }
 
             ctx.Animals.Update(animal);
             ctx.SaveChanges();
+
+            TempData.Set(WebConstants.ToastMessage, new ToastModel("Product updated successfully!"));
+
 
             return RedirectToAction("Index");
         }
@@ -76,7 +84,16 @@ namespace AnimalShelter.Controllers
             ctx.Animals.Remove(animal);
             ctx.SaveChanges(); // submit changes to DB
 
+            TempData.Set(WebConstants.ToastMessage, new ToastModel("Product deleted successfully!"));
+
             return RedirectToAction("Index");
+        }
+
+
+        private void SetCategoriesToViewBag()
+        {
+            var categories = new SelectList(ctx.Categories.ToList(), "Id", "Name");
+            ViewBag.Categories = categories;
         }
     }
 }
