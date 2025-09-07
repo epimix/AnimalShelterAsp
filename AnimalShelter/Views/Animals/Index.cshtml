@@ -26,7 +26,7 @@
                     <img src="@(i.ImageUrl ?? "https://thumbs.dreamstime.com/b/no-image-icon-vector-available-picture-symbol-isolated-white-background-suitable-user-interface-element-205805243.jpg")" alt="@i.Name" height="50" />
                 </td>
                 <td>
-                    <a href="#">@i.Name</a>
+                    <a asp-action="Details" asp-route-id="@i.Id">@i.Name</a>
                 </td>
                 <td>
                     @if (i.Age == 0)

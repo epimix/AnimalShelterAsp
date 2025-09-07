@@ -25,6 +25,15 @@ namespace AnimalShelter.Controllers
         }
         
         [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var animal = ctx.Animals.Include(x => x.Category).FirstOrDefault(x => x.Id == id);
+            if (animal == null) return NotFound();
+
+            return View(animal);
+        }
+        
+        [HttpGet]
         public IActionResult Create()
         {
             SetCategoriesToViewBag();
