@@ -1,4 +1,7 @@
+using AnimalShelter.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using AnimalShelter.Data;
 using AnimalShelter.Models;
 using System.Diagnostics;
 
@@ -6,13 +9,17 @@ namespace AnimalShelter.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly AnimalShelterDbContext ctx;
+
+        public HomeController(AnimalShelterDbContext ctx)
         {
+            this.ctx = ctx;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var products = ctx.Animals.Include(x => x.Category).ToList();
+            return View(products);
         }
 
         public IActionResult About()
