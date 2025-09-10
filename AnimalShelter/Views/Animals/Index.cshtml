@@ -1,4 +1,8 @@
 ﻿@model List<Animal>
+@{
+    string delDialogId = "deleteConfirm";
+    string editDialogId = "hersgfyek";
+}
 
 <h1>Список тварин у притулку</h1>
 
@@ -71,46 +75,16 @@
         <img width="500" src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-concept-illustration-svg-png-download-2902554.png" alt="Empty" />
     </div>
 }
-
-<div class="modal fade" id="deleteConfirmDialog" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Ви впевнені, що хочете видалити тварину <b class="title"></b>?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ні</button>
-                <a id="deleteBtn" class="btn btn-danger">Так</a>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="_ConfirmModalDialogPartial" model=@(new ConfirmDialogModel() {
+         DialogId = delDialogId,
+         Mode = DialogType.danger,
+         Message = "Do you want to delete the product?",
+         Title = "Delete Confirmation" }) />
 
 @section Scripts
 {
     <script>
-        var modal = document.getElementById('deleteConfirmDialog')
-        var deleteBtn = document.getElementById('deleteBtn')
-
-        modal.addEventListener('show.bs.modal', function (event) {
-            // Button that triggered the modal
-            var button = event.relatedTarget
-            // Extract info from data-bs-* attributes
-            var title = button.getAttribute('data-bs-title')
-
-            // Update the modal's content.
-            var titleSpan = modal.querySelector('.modal-body .title')
-            titleSpan.textContent = title
-
-            // --- id
-            var id = button.getAttribute('data-bs-id')
-            var deleteBtn = modal.querySelector('.modal #deleteBtn')
-            deleteBtn.setAttribute('href', "/animals/delete/" + id)
-        })
-
+        configConfirmModal('@delDialogId', '/products/delete/');
+        // configConfirmModal('@editDialogId', '/products/edit/');
     </script>
 }

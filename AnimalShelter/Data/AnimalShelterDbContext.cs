@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AnimalShelter.Data.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AnimalShelter.Data
 {
-    public class AnimalShelterDbContext : DbContext
+    public class AnimalShelterDbContext : /*Identity*/DbContext
     {
         public AnimalShelterDbContext() {
             //Database.EnsureCreated();

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IFavService FavoriteService
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -33,7 +35,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Animals" asp-action="Index">Animals</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Favorite" asp-action="Index">Favorite (0)</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Favorite" asp-action="Index">
+                                Favorite(@FavoriteService.GetFavSize())
+                            </a>
                         </li>
                     </ul>
                 </div>

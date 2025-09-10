@@ -47,7 +47,20 @@ namespace AnimalShelter.Controllers
             ids.Remove(id);
             HttpContext.Session.Set("FavItems", ids);
 
-            TempData.Set(WebConstants.ToastMessage, new ToastModel("Product deleted successfully!"));
+            TempData.Set(WebConstants.ToastMessage, new ToastModel("Animal deleted successfully!"));
+
+            return RedirectToAction("Index");
+        }
+        
+        public ActionResult DeleteAll()
+        {
+            var existingIds = HttpContext.Session.Get<List<int>>("FavItems");
+            List<int> ids = existingIds ?? new();
+
+            ids.Clear();
+            HttpContext.Session.Set("FavItems", ids);
+
+            TempData.Set(WebConstants.ToastMessage, new ToastModel("Animals deleted successfully!"));
 
             return RedirectToAction("Index");
         }

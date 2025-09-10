@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using AnimalShelter.Data;
+using AnimalShelter.Interfaces;
+using AnimalShelter.Services;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +11,16 @@ string connStr = builder.Configuration.GetConnectionString("RemoteDb")
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<IFavService, FavoriteService>();
 
 builder.Services.AddDbContext<AnimalShelterDbContext>(options =>
     options.UseSqlServer(connStr));
+
+/*builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+    options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<AnimalShelterDbContext>();*/
 
 builder.Services.AddDistributedMemoryCache();
 
