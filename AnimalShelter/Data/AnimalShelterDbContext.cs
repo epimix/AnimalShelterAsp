@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AnimalShelter.Data.Entities;
-using Microsoft.AspNet.Identity.EntityFramework;
-
+/*using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+*/
 namespace AnimalShelter.Data
 {
     public class AnimalShelterDbContext : /*Identity*/DbContext
